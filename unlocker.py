@@ -2,7 +2,7 @@
 """
 The MIT License (MIT)
 
-Copyright (c) 2014-2018 Dave Parsons & Sam Bingner
+Copyright (c) 2014-2020 Dave Parsons & Sam Bingner
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the 'Software'), to deal
@@ -41,34 +41,24 @@ Offset  Length  Struct Type Description
 0x18/24 0x30/48 48B    byte Data
 """
 
-from __future__ import print_function
 import codecs
 import os
 import re
 import struct
 import sys
 
-if sys.version_info < (2, 7):
-    sys.stderr.write('You need Python 2.7 or later\n')
+if sys.version_info < (3, 8):
+    sys.stderr.write('You need Python 3.8 or later\n')
     sys.exit(1)
 
 # Setup imports depending on whether IronPython or CPython
 if sys.platform in ('cli', 'win32'):
     # noinspection PyUnresolvedReferences
-    if sys.version_info > (3, 0):
-        from winreg import *
-    else:
-        from _winreg import *
-
+    from winreg import *
 
 
 def bytetohex(data):
-    if sys.version_info > (3, 0):
-        # Python 3 code in this block
-        return "".join("{:02X} ".format(c) for c in data)
-    else:
-        # Python 2 code in this block
-        return "".join("{:02X} ".format(ord(c)) for c in data)
+    return ''.join('{:02X} '.format(c) for c in data)
 
 
 def joinpath(folder, filename):
