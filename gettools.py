@@ -23,124 +23,103 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from __future__ import print_function
 import os
 import sys
-import shutil
 import tarfile
-import zipfile
-from abc import ABC
 
+from progressbar import ProgressBar
 from urllib.request import urlopen
-from html.parser import HTMLParser
 from urllib.request import urlretrieve
+from xml.etree import ElementTree
+from zipfile import ZipFile
 
 
-# Parse the Fusion directory page
-class CDSParser(HTMLParser, ABC):
+ROOT = os.path.dirname(os.path.abspath(__file__))
+TOOL_PATH = ROOT + '/tools/'
+GET_FUSION = 'https://vmware.com/go/getfusion'
+VMWARE_CDS = 'https://softwareupdate.vmware.com/cds/vmw-desktop/'
+FUSION_XML = VMWARE_CDS + 'fusion.xml'
+FUSION_TAR = 'com.vmware.fusion.zip.tar'
+FUSION_ZIP = 'com.vmware.fusion.zip'
+FUSION_TAR_PATH = TOOL_PATH + FUSION_TAR
+FUSION_ZIP_PATH = TOOL_PATH + FUSION_ZIP
+DARWIN_ISO_ZIP = 'payload/VMware Fusion.app/Contents/Library/isoimages/darwin.iso'
+DARWINPRE15_ISO_ZIP = 'payload/VMware Fusion.app/Contents/Library/isoimages/darwinPre15.iso'
+DARWIN_ISO_PATH = TOOL_PATH + 'darwin.iso'
+DARWINPRE15_ISO_PATH = TOOL_PATH + 'darwinPre15.iso'
 
+
+class MyProgressBar:
     def __init__(self):
-        HTMLParser.__init__(self)
-        self.reset()
-        self.HTMLDATA = []
+        self.pbar = None
 
-    def handle_data(self, data):
-        # Build a list of numeric data from any element
-        if data.find("\n") == -1:
-            if data[0].isdigit():
-                self.HTMLDATA.append(data)
-                self.HTMLDATA.sort(key=lambda s: [int(u) for u in s.split('.')])
+    def __call__(self, block_num, block_size, total_size):
+        if not self.pbar:
+            self.pbar = ProgressBar(maxval=total_size)
+            self.pbar.start()
 
-    def clean(self):
-        self.HTMLDATA = []
+        downloaded = block_num * block_size
+        if downloaded < total_size:
+            self.pbar.update(downloaded)
+        else:
+            self.pbar.finish()
 
 
-def convertpath(path):
-    # OS path separator replacement funciton
-    return path.replace(os.path.sep, '/')
+def parse_fusion_xml(fusion_xml):
+    # Parse the Fusion directory page looking for highest build number
+    tree = ElementTree.fromstring(fusion_xml)
+    all_urls = tree.findall('.//url')
+    build = 0
+    file = ''
+    for url in all_urls:
+        parts = url.text.split('/')
+        if parts[0] == 'info-only':
+            # Ignore a Fusion 4.0 test folder
+            continue
+        current_build = int(parts[2])
+        if current_build > build:
+            print(parts[2])
+            build = current_build
+            parts[4] = FUSION_TAR
+            file = VMWARE_CDS + '/'.join(parts)
+
+    return build, file
 
 
 def main():
-    # Check minimal Python version is 2.7
-    if sys.version_info < (2, 7):
-        sys.stderr.write('You need Python 2.7 or later\n')
+    # Check minimal Python version is 3.8
+    if sys.version_info < (3, 8):
+        sys.stderr.write('You need Python 3.8 or later\n')
         sys.exit(1)
 
-    # Setup url and file paths
-    url = 'https://softwareupdate.vmware.com/cds/vmw-desktop/fusion/'
-    dest = os.path.dirname(os.path.abspath(__file__))
-
-    # Re-create the tools folder
-    shutil.rmtree(dest + '/tools', True)
-    os.mkdir(dest + '/tools')
-
     # Get the list of Fusion releases
-    # And get the last item in the ul/li tags
-    response = urlopen(url)
-    html = response.read()
-    parser = CDSParser()
-    parser.feed(str(html))
-    url = url + parser.HTMLDATA[-1] + '/'
-    parser.clean()
+    response = urlopen(FUSION_XML)
+    fusion_xml = response.read()
+    build, file_path = parse_fusion_xml(fusion_xml)
 
-    # Open the latest release page
-    # And build file URL
-    response = urlopen(url)
-    html = response.read()
-    parser.feed(str(html))
-    urlpost15 = url + parser.HTMLDATA[-1] + '/packages/com.vmware.fusion.tools.darwin.zip.tar'
-    urlpre15 = url + parser.HTMLDATA[-1] + '/packages/com.vmware.fusion.tools.darwinPre15.zip.tar'
-    parser.clean()
+    # Download the com.vmware.fusion.zip.tar file
+    print(f'Retrieving Fusion build {build} from: {file_path}')
+    urlretrieve(file_path, FUSION_TAR_PATH, MyProgressBar())
 
-    # Download the darwin.iso tgz file
-    print('Retrieving Darwin tools from: ' + urlpost15)
-    urlretrieve(urlpost15, convertpath(dest + '/tools/com.vmware.fusion.tools.darwin.zip.tar'))
-
-    # Extract the tar to zip
-    tar = tarfile.open(convertpath(dest + '/tools/com.vmware.fusion.tools.darwin.zip.tar'), 'r')
-    tar.extract('com.vmware.fusion.tools.darwin.zip', path=convertpath(dest + '/tools/'))
+    # Extract the zip from tar
+    tar = tarfile.open(FUSION_TAR_PATH, 'r')
+    tar.extract(FUSION_ZIP, path=TOOL_PATH)
     tar.close()
 
-    # Extract the iso and sig files from zip
-    cdszip = zipfile.ZipFile(convertpath(dest + '/tools/com.vmware.fusion.tools.darwin.zip'), 'r')
-    cdszip.extract('payload/darwin.iso', path=convertpath(dest + '/tools/'))
-    cdszip.extract('payload/darwin.iso.sig', path=convertpath(dest + '/tools/'))
-    cdszip.close()
-
-    # Move the iso and sig files to tools folder
-    shutil.move(convertpath(dest + '/tools/payload/darwin.iso'), convertpath(dest + '/tools/darwin.iso'))
-    shutil.move(convertpath(dest + '/tools/payload/darwin.iso.sig'), convertpath(dest + '/tools/darwin.iso.sig'))
-
-    # Cleanup working files and folders
-    shutil.rmtree(convertpath(dest + '/tools/payload'), True)
-    os.remove(convertpath(dest + '/tools/com.vmware.fusion.tools.darwin.zip.tar'))
-    os.remove(convertpath(dest + '/tools/com.vmware.fusion.tools.darwin.zip'))
-
-    # Download the darwinPre15.iso tgz file
-    print('Retrieving DarwinPre15 tools from: ' + urlpre15)
-    urlretrieve(urlpre15, convertpath(dest + '/tools/com.vmware.fusion.tools.darwinPre15.zip.tar'))
-
-    # Extract the tar to zip
-    tar = tarfile.open(convertpath(dest + '/tools/com.vmware.fusion.tools.darwinPre15.zip.tar'), 'r')
-    tar.extract('com.vmware.fusion.tools.darwinPre15.zip', path=convertpath(dest + '/tools/'))
-    tar.close()
-
-    # Extract the iso and sig files from zip
-    cdszip = zipfile.ZipFile(convertpath(dest + '/tools/com.vmware.fusion.tools.darwinPre15.zip'), 'r')
-    cdszip.extract('payload/darwinPre15.iso', path=convertpath(dest + '/tools/'))
-    cdszip.extract('payload/darwinPre15.iso.sig', path=convertpath(dest + '/tools/'))
-    cdszip.close()
-
-    # Move the iso and sig files to tools folder
-    shutil.move(convertpath(dest + '/tools/payload/darwinPre15.iso'),
-                convertpath(dest + '/tools/darwinPre15.iso'))
-    shutil.move(convertpath(dest + '/tools/payload/darwinPre15.iso.sig'),
-                convertpath(dest + '/tools/darwinPre15.iso.sig'))
+    # Extract the iso files from VMWare Fusion.app
+    with ZipFile(FUSION_ZIP_PATH, 'r') as zipObj:
+        zipinfo = zipObj.getinfo(DARWIN_ISO_ZIP)
+        zipinfo.filename = os.path.basename(DARWIN_ISO_PATH)
+        zipObj.extract(zipinfo, os.path.dirname(os.path.realpath(DARWIN_ISO_PATH)))
+        zipinfo = zipObj.getinfo(DARWINPRE15_ISO_ZIP)
+        zipinfo.filename = os.path.basename(DARWINPRE15_ISO_PATH)
+        zipObj.extract(zipinfo, os.path.dirname(os.path.realpath(DARWINPRE15_ISO_PATH)))
 
     # Cleanup working files and folders
-    shutil.rmtree(convertpath(dest + '/tools/payload'), True)
-    os.remove(convertpath(dest + '/tools/com.vmware.fusion.tools.darwinPre15.zip.tar'))
-    os.remove(convertpath(dest + '/tools/com.vmware.fusion.tools.darwinPre15.zip'))
+    os.remove(FUSION_TAR_PATH)
+    os.remove(FUSION_ZIP_PATH)
+
+    return
 
 
 if __name__ == '__main__':
