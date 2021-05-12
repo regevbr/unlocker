@@ -1,4 +1,4 @@
-#Tech Preview SMC
+#Virtual SMC
 ##Darwin
 
 	0ee83c0: 5945 4b23 0432 3369 7580 0000 0000 0000  YEK#.23iu.......
@@ -75,7 +75,3 @@
 	0ca2360: 0000 0000 0000 0000 314b 534f 202a 3868  ........1KSO *8h
 	0ca6790: 0000 0000 0000 0000 314b 534f 202a 3868  ........1KSO *8h
 
-OSK0/1 keys return 32 bytes:
-
-	ourhardworkbythesewordsguardedpl
-	easedontsteal(c)AppleComputerInc
