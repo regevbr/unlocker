@@ -352,6 +352,9 @@ def main():
 
     # Setup default paths
     if osname == 'linux':
+        # TODO: Dynamically find Linux installation
+        # Path the install is stored in /etc/vmware/config
+        # libdir = "/usr/lib/vmware"
         vmx_path = '/usr/lib/vmware/bin/'
         vmx = joinpath(vmx_path, 'vmware-vmx')
         vmx_debug = joinpath(vmx_path, 'vmware-vmx-debug')
