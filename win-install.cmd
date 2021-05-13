@@ -10,7 +10,7 @@ chcp 850
 
 net session >NUL 2>&1
 if %errorlevel% neq 0 (
-    echo Administrator privileges required! 
+    echo Administrator privileges required!
     exit /b
 )
 
@@ -44,11 +44,11 @@ xcopy /F /Y "%InstallPath%vmwarebase.dll" .\backup\
 
 echo.
 echo Patching...
-unlocker.exe
+python unlocker.py
 
 echo.
 echo Getting VMware Tools...
-gettools.exe
+python gettools.py
 xcopy /F /Y .\tools\darwin*.* "%InstallPath%"
 
 echo.
