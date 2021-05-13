@@ -1,9 +1,9 @@
 @echo off
 setlocal ENABLEEXTENSIONS
 echo.
-echo Unlocker 3.0.2 for VMware Workstation
+echo Unlocker 3.0.3 for VMware Workstation
 echo =====================================
-echo (c) Dave Parsons 2011-18
+echo (c) Dave Parsons 2011-21
 echo.
 echo Set encoding parameters...
 chcp 850

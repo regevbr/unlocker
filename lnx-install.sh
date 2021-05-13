@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-echo "Unlocker 3.0.2 for VMware Workstation"
+echo "Unlocker 3.0.3 for VMware Workstation"
 echo "====================================="
-echo "(c) Dave Parsons 2011-18"
+echo "(c) Dave Parsons 2011-21"
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -17,13 +17,13 @@ fi
 echo Creating backup folder...
 rm -rf ./backup
 mkdir -p "./backup"
-cp -v /usr/lib/vmware/bin/vmware-vmx ./backup/
-cp -v /usr/lib/vmware/bin/vmware-vmx-debug ./backup/
-cp -v /usr/lib/vmware/bin/vmware-vmx-stats ./backup/
+cp -pv /usr/lib/vmware/bin/vmware-vmx ./backup/
+cp -pv /usr/lib/vmware/bin/vmware-vmx-debug ./backup/
+cp -pv /usr/lib/vmware/bin/vmware-vmx-stats ./backup/
 if [ -d /usr/lib/vmware/lib/libvmwarebase.so.0/ ]; then
-    cp -v /usr/lib/vmware/lib/libvmwarebase.so.0/libvmwarebase.so.0 ./backup/
+    cp -pv /usr/lib/vmware/lib/libvmwarebase.so.0/libvmwarebase.so.0 ./backup/
 elif [ -d /usr/lib/vmware/lib/libvmwarebase.so/ ]; then
-    cp -v /usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so ./backup/
+    cp -pv /usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so ./backup/
 fi
 
 echo Patching...

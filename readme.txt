@@ -19,8 +19,8 @@ If you are using an earlier product please continue using Unlocker 1.
 
 Version 3 has been tested against:
 
-* Workstation 11/12/14/15 on Windows and Linux
-* Workstation Player 7/12/14/15 on Windows and Linux
+* Workstation 11/12/14/15/16 on Windows and Linux
+* Workstation Player 7/12/14/15/16 on Windows and Linux
 
 The patch code carries out the following modifications dependent on the product
 being patched:
@@ -105,4 +105,4 @@ History
                - Allow Python 2 and 3 to run the Python code from Bash scripts
 
 
-(c) 2011-2018 Dave Parsons
+(c) 2011-2021 Dave Parsons

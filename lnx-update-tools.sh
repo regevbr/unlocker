@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-echo "Get macOS VMware Tools 3.0.2"
+echo "Get macOS VMware Tools 3.0.3"
 echo "==============================="
-echo "(c) Dave Parsons 2015-18"
+echo "(c) Dave Parsons 2015-21"
 
 # Ensure we only use unmodified commands
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -16,7 +16,7 @@ fi
 
 echo Getting VMware Tools...
 python gettools.py
-cp ./tools/darwin*.* /usr/lib/vmware/isoimages/
+cp -pv ./tools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!
 
