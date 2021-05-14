@@ -95,6 +95,10 @@ def main():
         sys.stderr.write('You need Python 3.8 or later\n')
         sys.exit(1)
 
+    # Make a tools folder if not present
+    if not os.path.exists(TOOL_PATH):
+        os.makedirs(TOOL_PATH)
+
     # Get the list of Fusion releases
     response = urlopen(FUSION_XML)
     fusion_xml = response.read()

@@ -16,7 +16,6 @@ fi
 
 echo Getting VMware Tools...
 ./gettools.py
-cp -pv ./tools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!
 

@@ -33,7 +33,6 @@ echo.
 echo Restoring files...
 xcopy /F /Y .\backup\x64\*.* "%InstallPath%x64\"
 xcopy /F /Y .\backup\*.* "%InstallPath%"
-del /f "%InstallPath%"darwin*.*
 
 echo.
 echo Removing backup files...

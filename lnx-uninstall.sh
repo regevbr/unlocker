@@ -27,6 +27,5 @@ fi
 echo Removing backup files...
 rm -rfv ./backup
 rm -rfv ./tools
-rm -fv /usr/lib/vmware/isoimages/darwin*.*
 
 echo Finished!
