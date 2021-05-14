@@ -82,7 +82,6 @@ def parse_fusion_xml(fusion_xml):
             continue
         current_build = int(parts[2])
         if current_build > build:
-            print(parts[2])
             build = current_build
             parts[4] = FUSION_TAR
             file = VMWARE_CDS + '/'.join(parts)
