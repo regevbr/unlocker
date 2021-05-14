@@ -15,7 +15,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo Getting VMware Tools...
-python gettools.py
+./gettools.py
 cp -pv ./tools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!

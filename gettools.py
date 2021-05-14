@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 The MIT License (MIT)
 
@@ -103,6 +103,7 @@ def main():
     # Download the com.vmware.fusion.zip.tar file
     print(f'Retrieving Fusion build {build} from: {file_path}')
     urlretrieve(file_path, FUSION_TAR_PATH, MyProgressBar())
+    print('\n')
 
     # Extract the zip from tar
     tar = tarfile.open(FUSION_TAR_PATH, 'r')

@@ -15,8 +15,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo Creating backup folder...
-rm -rf ./backup
-mkdir -p "./backup"
+rm -rf ./backup 2>/dev/null
+mkdir -p ./backup
 cp -pv /usr/lib/vmware/bin/vmware-vmx ./backup/
 cp -pv /usr/lib/vmware/bin/vmware-vmx-debug ./backup/
 cp -pv /usr/lib/vmware/bin/vmware-vmx-stats ./backup/
@@ -26,12 +26,16 @@ elif [ -d /usr/lib/vmware/lib/libvmwarebase.so/ ]; then
     cp -pv /usr/lib/vmware/lib/libvmwarebase.so/libvmwarebase.so ./backup/
 fi
 
+echo Creating tools folder...
+rm -rf ./tools 2>/dev/null
+mkdir -p ./tools
+
 echo Patching...
-python ./unlocker.py
+./unlocker.py
 
 echo Getting VMware Tools...
-python gettools.py
-cp ./tools/darwin*.* /usr/lib/vmware/isoimages/
+./gettools.py
+cp -pv ./tools/darwin*.* /usr/lib/vmware/isoimages/
 
 echo Finished!
 
