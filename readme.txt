@@ -13,9 +13,9 @@ macOS Unlocker V3.0 for VMware Workstation
 1. Introduction
 ---------------
 
-Unlocker 3 is designed for VMware Workstation 11-15 and Player 7-15.
+Unlocker 3 is designed for VMware Workstation 11-16 and Player 7-16.
 
-If you are using an earlier product please continue using Unlocker 1.
+If you are using an earlier product please continue using Unlocker V1.
 
 Version 3 has been tested against:
 
@@ -29,22 +29,21 @@ being patched:
 * Fix vmwarebase .dll or .so to allow Apple to be selected during VM creation
 * Download a copy of the latest VMware Tools for macOS
 
-Note that not all products recognise the darwin.iso via install tools menu item.
-You will have to manually mount the darwin.iso for example on Workstation 11 and Player 7.
+Note that not Workstation and Player do not recognise the darwin.iso via install tools menu item.
+You will have to manually mount the darwin.iso by selectig the ISO file in the guests settings.
 
 In all cases make sure VMware is not running, and any background guests have
 been shutdown.
 
-The code is written in Python.
+The code is written in Python with some Bash and Command files.
 
 2. Prerequisites
 ----------------
 
-The code requires Python 2.7 to work. Most Linux distros ship with a compatible
+The code requires Python 3.8 to work. Most Linux distros ship with a compatible
 Python interpreter and should work without requiring any additional software.
 
-Windows Unlocker has a packaged version of the Python script using PyInstaller, 
-and so does not require Python to be installed.
+Windows Unlocker has a packaged minimal version of the Python and so does not require Python to be installed.
 
 3. Limitations
 --------------
@@ -103,6 +102,8 @@ History
 02/10/18 3.0.1 - Fixed gettools.py to work with Python 3 and correctly download darwinPre15.iso
 10/10/18 3.0.2 - Fixed false positives from anti-virus software with Windows executables
                - Allow Python 2 and 3 to run the Python code from Bash scripts
+14/05/21 3.0.3 - New simpfiled code for development and deployment
+               - Removed Python 2 support and requires minmal Python 3.8
 
 
 (c) 2011-2021 Dave Parsons
