@@ -26,13 +26,11 @@ THE SOFTWARE.
 import os
 import sys
 import tarfile
-
-from progressbar import ProgressBar
+import time
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 from xml.etree import ElementTree
 from zipfile import ZipFile
-
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TOOL_PATH = ROOT + '/tools/'
@@ -51,18 +49,24 @@ DARWINPRE15_ISO_PATH = TOOL_PATH + 'darwinPre15.iso'
 
 class MyProgressBar:
     def __init__(self):
-        self.pbar = None
+        self.start_time = time.time()
 
     def __call__(self, block_num, block_size, total_size):
-        if not self.pbar:
-            self.pbar = ProgressBar(maxval=total_size)
-            self.pbar.start()
-
-        downloaded = block_num * block_size
-        if downloaded < total_size:
-            self.pbar.update(downloaded)
-        else:
-            self.pbar.finish()
+        if block_num == 0:
+            self.start_time = time.time()
+            return
+        duration = time.time() - self.start_time
+        progress_size = int(block_num * block_size)
+        speed = int(progress_size / (1024 * duration)) if duration > 0 else 0
+        percent = min(int(block_num * block_size * 100 / total_size), 100)
+        time_remaining = ((total_size - progress_size) / 1024) / speed if speed > 0 else 0
+        sys.stdout.write(f'\r'
+                         f'{percent:.1f}%, '
+                         f'{progress_size / (1024 * 1024):.1f} MB, '
+                         f'{speed:.1f} KB/s, '
+                         f'{time_remaining:.1f} seconds remaining')
+        sys.stdout.flush()
+        return
 
 
 def parse_fusion_xml(fusion_xml):
