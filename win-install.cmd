@@ -16,10 +16,9 @@ if %errorlevel% neq 0 (
 
 echo.
 set KeyName="HKLM\SOFTWARE\Wow6432Node\VMware, Inc.\VMware Player"
-:: delims is a TAB followed by a space
-for /F "tokens=2* delims=	 " %%A in ('REG QUERY %KeyName% /v InstallPath') do set InstallPath=%%B
+for /F "tokens=2*" %%A in ('REG QUERY %KeyName% /v InstallPath') do set InstallPath=%%B
 echo VMware is installed at: %InstallPath%
-for /F "tokens=2* delims=	 " %%A in ('REG QUERY %KeyName% /v ProductVersion') do set ProductVersion=%%B
+for /F "tokens=2*" %%A in ('REG QUERY %KeyName% /v ProductVersion') do set ProductVersion=%%B
 echo VMware product version: %ProductVersion%
 
 pushd %~dp0
