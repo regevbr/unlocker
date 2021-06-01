@@ -34,7 +34,15 @@ from zipfile import ZipFile
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TOOL_PATH = ROOT + '/tools/'
-GET_FUSION = 'https://vmware.com/go/getfusion'
+
+# Download redirects
+# GET_FUSION = 'https://vmware.com/go/getfusion'
+# GET_WORKSTATION_WIN = 'https://www.vmware.com/go/getworkstation-win'
+# GET_WORKSTATION_LINUX = 'https://www.vmware.com/go/getworkstation-linux'
+# GET_PLAYER_WIN = 'https://www.vmware.com/go/getplayer-win'
+# GET_PLAYER_LINUX = 'https://www.vmware.com/go/getplayer-linux'
+
+# VMWARE CDS FOR UPDATES
 VMWARE_CDS = 'https://softwareupdate.vmware.com/cds/vmw-desktop/'
 FUSION_XML = VMWARE_CDS + 'fusion.xml'
 FUSION_TAR = 'com.vmware.fusion.zip.tar'
