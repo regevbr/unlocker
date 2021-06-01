@@ -104,6 +104,6 @@ History
                - Allow Python 2 and 3 to run the Python code from Bash scripts
 14/05/21 3.0.3 - New simpfiled code for development and deployment
                - Removed Python 2 support and requires minmal Python 3.8
-
+01/06/21 3.0.4 - Fixed embedded Python error on Windows
 
 (c) 2011-2021 Dave Parsons
