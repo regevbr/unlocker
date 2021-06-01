@@ -304,8 +304,8 @@ def patchbase(name):
     base = f.read()
 
     # Loop through each entry and set top bit
-    # 0xBE --> 0xBF (WKS 12)
-    # 0x3E --> 0x3F (WKS 14)
+    # 0xBE --> 0xBF (WKS 12/13)
+    # 0x3E --> 0x3F (WKS 14+)
     for m in darwin.finditer(base):
         offset = m.start()
         f.seek(offset + 32)
