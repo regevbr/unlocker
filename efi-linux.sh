@@ -35,11 +35,11 @@ else
 fi
 
 printf "Patching 32-bit ROM...\n"
-./uefipatch/UEFIPatch.linux EFI32.ROM efi-patches.txt -o EFI32-MACOS.ROM
+./uefipatch/UEFIPatch.linux EFI32.ROM ./uefipatch/efi-patches.txt -o EFI32-MACOS.ROM
 rm -fv EFI32.ROM
 
 printf "\nPatching 64-bit ROM...\n"
-./uefipatch/UEFIPatch.linux EFI64.ROM efi-patches.txt -o EFI64-MACOS.ROM
+./uefipatch/UEFIPatch.linux EFI64.ROM ./uefipatch/efi-patches.txt -o EFI64-MACOS.ROM
 rm -fv EFI64.ROM
 
 printf "\nFinished!\n"

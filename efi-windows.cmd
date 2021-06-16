@@ -41,12 +41,12 @@ else (
 
 echo.
 echo Patching 32-bit ROM...
-./uefipatch/UEFIPatch.exe EFI32.ROM efi-patches.txt -o EFI32-MACOS.ROM
+./uefipatch/UEFIPatch.exe EFI32.ROM ./uefipatch/efi-patches.txt -o EFI32-MACOS.ROM
 del /f EFI32.ROM
 
 echo.
 echo Patching 64-bit ROM...
-./uefipatch/UEFIPatch.exe EFI64.ROM efi-patches.txt -o EFI64-MACOS.ROM
+./uefipatch/UEFIPatch.exe EFI64.ROM ./uefipatch/efi-patches.txt -o EFI64-MACOS.ROM
 del /f EFI64.ROM
 
 popd
