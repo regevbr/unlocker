@@ -1,12 +1,15 @@
-#macOS Unlocker V3.0 for VMware Workstation
+# macOS Unlocker V3.0 for VMware Workstation
 
 ---
 **IMPORTANT**
-
-Always uninstall the previous version of the Unlocker before using a new
-version or running an update of the software. Failure to do this could render VMware unusable. 
 ---
-##1. Introduction
+Always uninstall the previous version of the Unlocker before using a new version or 
+running an update of the software. Failure to do this could render VMware unusable. 
+
+You use this software at your own risk and there are no guarantees this will work 
+in future versions of VMware Workstation.
+
+## 1. Introduction
 Unlocker 3 is designed for VMware Workstation 11-16 and Player 7-16.
 
 Version 3 has been tested against:
@@ -29,14 +32,14 @@ been shutdown.
 
 The code is written in Python with some Bash and Command files.
 
-##2. Prerequisites
+## 2. Prerequisites
 The code requires Python 3.8 to work. Most Linux distros ship with a compatible
 Python interpreter and should work without requiring any additional software.
 
 Windows Unlocker has a packaged minimal version of the Python and so does not require Python to be installed.
 
 
-##3. Windows
+## 3. Windows
 On Windows you will need to either run cmd.exe as Administrator or using
 Explorer right click on the command file and select "Run as administrator".
 
@@ -44,7 +47,7 @@ Explorer right click on the command file and select "Run as administrator".
 - win-uninstall.cmd - restores VMware
 - win-update-tools.cmd - retrieves latest macOS guest tools
 
-##4. Linux
+## 4. Linux
 On Linux you will need to be either root or use sudo to run the scripts.
 
 You may need to ensure the Linux scripts have execute permissions
@@ -54,7 +57,7 @@ by running chmod +x against the 2 files.
 - lnx-uninstall.sh - restores VMware
 - lnx-update-tools.sh - retrieves latest macOS guest tools
    
-##5. Thanks
+## 5. Thanks
 Thanks to Zenith432 for originally building the C++ unlocker and Mac Son of Knife
 (MSoK) for all the testing and support.
 
@@ -63,8 +66,7 @@ debugging expertise. Sam also wrote the code for patching ESXi ELF files and
 modified the unlocker code to run on Python 3 in the ESXi 6.5 environment.
 
 
-##History
-
+## History
 27/09/18 3.0.0
 - First release
 
