@@ -25,7 +25,7 @@ being patched:
 * Download a copy of the latest VMware Tools for macOS
 
 Note that not Workstation and Player do not recognise the darwin.iso via install tools menu item.
-You will have to manually mount the darwin.iso by selectig the ISO file in the guests settings.
+You will have to manually mount the darwin.iso by selectig the ISO file in the guest's settings.
 
 In all cases make sure VMware is not running, and any background guests have
 been shutdown.
