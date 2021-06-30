@@ -30,7 +30,7 @@ The patch code carries out the following modifications dependent on the product
 being patched:
 
 * Fix vmware-vmx and derivatives to allow macOS to boot
-* Fix vmwarebase .dll or .so to allow Apple to be selected during VM creation
+* Fix vmwarebase.dll or .so to allow Apple to be selected during VM creation
 * Download a copy of the latest VMware Tools for macOS
 
 **Note:** VMware Workstation and Player do not recognise the darwin.iso via install tools menu item.
