@@ -1,6 +1,14 @@
 # macOS Unlocker V3.0 for VMware Workstation
 
 ---
+**RECOMMENDATION**
+---
+I would recommend using auto-unlocker instead of this unlocker as it is a better solution and actively supported 
+by Paulo here on GitHub.
+
+<https://github.com/paolo-projects/auto-unlocker>
+
+---
 **IMPORTANT**
 ---
 Always uninstall the previous version of the Unlocker before using a new version or 
