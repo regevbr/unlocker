@@ -4,7 +4,7 @@
 **RECOMMENDATION**
 ---
 I would recommend using auto-unlocker instead of this unlocker as it is a better solution and actively supported 
-by Paulo here on GitHub.
+by Paolo here on GitHub.
 
 <https://github.com/paolo-projects/auto-unlocker>
 
